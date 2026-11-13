@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens GAICREAM — gaya minimalis (putih, hitam hangat, banyak ruang kosong).
+ * Nama token lama (chocolate, vanilla, strawberry, ...) dipertahankan supaya
+ * semua komponen, termasuk dashboard admin, otomatis ikut tampilan baru.
+ */
+@theme {
+  --color-strawberry: #f4e6ea; /* blush lembut (latar aksen) */
+  --color-strawberry-dark: #b4637a; /* aksen (badge, fokus) */
+  --color-vanilla: #f7f5f2; /* latar section */
+  --color-biscuit: #8a7a70; /* teks sekunder/aksen kecil */
+  --color-chocolate: #1c1917; /* teks utama & tombol utama */
+  --color-ink: #1c1917;
+  --color-muted: #78716c;
+  --color-matcha: #6c8a54;
+  --color-page: #ffffff;
+  --color-footer: #f7f5f2;
+  --color-line: #e7e5e4;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+/* Font dari next/font (lihat src/app/layout.tsx): satu keluarga font saja agar ringan */
+@theme inline {
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-page);
+    color: var(--color-chocolate);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* input minimal 16px di HP agar iOS tidak otomatis memperbesar layar saat mengetik */
+  @media (max-width: 800px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-chocolate);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* animasi sederhana untuk skeleton loading */
+@keyframes gai-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+.gai-skeleton {
+  background: #efedeb;
+  animation: gai-pulse 1.4s ease-in-out infinite;
+}
+
+/* ===== Produk melayang (foto tanpa latar) ===== */
+@keyframes gai-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--gai-rot, 0deg));
+  }
+  50% {
+    transform: translate3d(0, calc(var(--gai-lift, 12px) * -1), 0) rotate(calc(var(--gai-rot, 0deg) + var(--gai-tilt, 2deg)));
+  }
+}
+@keyframes gai-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.32;
+  }
+  50% {
+    transform: scale(0.84);
+    opacity: 0.18;
+  }
+}
+.gai-float {
+  animation: gai-float var(--gai-dur, 6s) ease-in-out var(--gai-delay, 0s) infinite;
+  will-change: transform;
+}
+.gai-float-shadow {
+  animation: gai-shadow var(--gai-dur, 6s) ease-in-out var(--gai-delay, 0s) infinite;
+}
+
+/* ===== Produk melayang (foto tanpa latar) ===== */
+@keyframes gai-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--gai-rot, 0deg));
+  }
+  50% {
+    transform: translate3d(0, calc(var(--gai-lift, 12px) * -1), 0) rotate(calc(var(--gai-rot, 0deg) + var(--gai-tilt, 2deg)));
+  }
+}
+@keyframes gai-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.32;
+  }
+  50% {
+    transform: scale(0.84);
+    opacity: 0.18;
+  }
+}
+.gai-float {
+  animation: gai-float var(--gai-dur, 6s) ease-in-out var(--gai-delay, 0s) infinite;
+  will-change: transform;
+}
+.gai-float-shadow {
+  animation: gai-shadow var(--gai-dur, 6s) ease-in-out var(--gai-delay, 0s) infinite;
+}
