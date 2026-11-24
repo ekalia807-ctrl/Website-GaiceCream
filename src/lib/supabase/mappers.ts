@@ -6,7 +6,7 @@ import type {
   PoPeriod,
   StoreSettings,
 } from "@/types/admin";
-import type { Product } from "@/types/product";
+import type { Product, Testimonial } from "@/types/product";
 
 export type Row = Record<string, unknown>;
 
@@ -54,6 +54,28 @@ export function productToRow(product: Partial<Product>): Row {
     ["description", product.description],
     ["active", product.active],
     ["sort_order", product.sortOrder],
+  ]);
+}
+
+export function testimonialFromRow(row: Row): Testimonial {
+  return {
+    id: str(row.id),
+    quote: str(row.quote),
+    name: str(row.name),
+    role: str(row.role),
+    active: Boolean(row.active),
+    sortOrder: num(row.sort_order),
+  };
+}
+
+export function testimonialToRow(item: Partial<Testimonial>): Row {
+  return pick([
+    ["id", item.id],
+    ["quote", item.quote],
+    ["name", item.name],
+    ["role", item.role],
+    ["active", item.active],
+    ["sort_order", item.sortOrder],
   ]);
 }
 

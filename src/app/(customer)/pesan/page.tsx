@@ -61,7 +61,7 @@ export default async function OrderPage({
 
   const initialProductId =
     typeof rasa === "string" &&
-    products.some((product) => product.id === rasa && product.stock > 0)
+    products.some((product) => product.id === rasa)
       ? rasa
       : undefined;
 

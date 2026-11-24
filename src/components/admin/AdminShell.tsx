@@ -4,6 +4,7 @@ import {
   CalendarDays,
   LayoutGrid,
   LogOut,
+  MessageCircle,
   Menu,
   Package,
   Settings,
@@ -39,6 +40,7 @@ const mainNav: NavItem[] = [
   { href: "/admin/pesanan", label: "Pesanan", icon: ShoppingBag, badge: true },
   { href: "/admin/po", label: "Periode PO", icon: CalendarDays },
   { href: "/admin/pelanggan", label: "Pelanggan", icon: Users },
+  { href: "/admin/testimoni", label: "Testimoni", icon: MessageCircle },
 ];
 
 const financeNav: NavItem[] = [

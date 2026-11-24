@@ -27,8 +27,6 @@ export function ProductDetailModal({
     };
   }, [onClose]);
 
-  const inStock = product.stock > 0;
-
   return (
     <div
       onClick={onClose}
@@ -70,19 +68,9 @@ export function ProductDetailModal({
           <strong className="my-[18px] text-[22px] font-normal">
             {formatIDR(product.price)} <small className="text-[12px] text-muted">/ pcs</small>
           </strong>
-          <div className="mb-[18px] flex items-center gap-[7px] text-[12px]">
-            <span
-              className={`inline-block h-[8px] w-[8px] rounded-full ${inStock ? "bg-[#80aa69]" : "bg-[#c9705f]"}`}
-            />
-            {inStock ? `Stok tersedia (${product.stock})` : "Stok habis"}
-          </div>
-          {inStock ? (
-            <ButtonLink href={`/pesan?rasa=${product.id}`} full>
-              Pesan rasa ini <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </ButtonLink>
-          ) : (
-            <p className="text-[12px] text-muted">Rasa ini sedang habis. Pilih rasa lain ya.</p>
-          )}
+          <ButtonLink href={`/pesan?rasa=${product.id}`} full>
+            Pesan rasa ini <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+          </ButtonLink>
         </div>
       </div>
     </div>

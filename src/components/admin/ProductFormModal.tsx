@@ -38,7 +38,6 @@ export function ProductFormModal({
           category: product.category,
           price: product.price,
           cost: product.cost,
-          stock: product.stock,
           tag: product.tag,
           description: product.description,
           image: product.image,
@@ -89,7 +88,7 @@ export function ProductFormModal({
         category: values.category,
         price: values.price,
         cost: values.cost,
-        stock: values.stock,
+        stock: 0,
         tag: values.tag,
         description: values.description,
         image: values.image,
@@ -174,21 +173,6 @@ export function ProductFormModal({
             {errors.cost && <span className={adminError}>{errors.cost.message}</span>}
           </label>
         </div>
-
-        {!product && (
-          <label className={adminLabel}>
-            Stok awal (pcs)
-            <input
-              {...register("stock", { valueAsNumber: true })}
-              type="number"
-              inputMode="numeric"
-              placeholder="20"
-              aria-invalid={Boolean(errors.stock)}
-              className={adminInput}
-            />
-            {errors.stock && <span className={adminError}>{errors.stock.message}</span>}
-          </label>
-        )}
 
         <label className={adminLabel}>
           Label (opsional)

@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Masuk" };
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; info?: string }>;
 }) {
   const params = await searchParams;
   const next = safeNextPath(params.next);
@@ -33,6 +33,11 @@ export default async function LoginPage({
           initialError={
             params.error === "verifikasi"
               ? "Tautan verifikasi tidak valid atau sudah kedaluwarsa. Coba masuk atau daftar lagi."
+              : undefined
+          }
+          initialInfo={
+            params.info === "password-diubah"
+              ? "Password berhasil diubah. Silakan masuk dengan password baru."
               : undefined
           }
         />

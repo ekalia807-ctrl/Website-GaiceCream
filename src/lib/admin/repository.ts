@@ -13,6 +13,8 @@ import {
   productToRow,
   settingsFromRow,
   settingsToRow,
+  testimonialFromRow,
+  testimonialToRow,
   transactionFromRow,
   transactionToRow,
 } from "@/lib/supabase/mappers";
@@ -23,7 +25,7 @@ import type {
   PoPeriod,
   StoreSettings,
 } from "@/types/admin";
-import type { Product } from "@/types/product";
+import type { Product, Testimonial } from "@/types/product";
 
 export const defaultSettings: StoreSettings = {
   id: "store",
@@ -48,6 +50,14 @@ export const productsStore = createRemoteCollection<Product>({
   orderBy: [{ column: "sort_order" }, { column: "created_at" }],
   fromRow: productFromRow,
   toRow: productToRow,
+  onPersisted: () => void refreshPublicData(),
+});
+
+export const testimonialsStore = createRemoteCollection<Testimonial>({
+  table: "testimonials",
+  orderBy: [{ column: "sort_order" }, { column: "created_at", ascending: false }],
+  fromRow: testimonialFromRow,
+  toRow: testimonialToRow,
   onPersisted: () => void refreshPublicData(),
 });
 
@@ -83,7 +93,7 @@ export const poStore = createRemoteCollection<PoPeriod>({
 
 /**
  * Mengubah status pesanan. Tampilan diperbarui langsung (optimistic), lalu disimpan ke database.
- * Jika gagal, status dikembalikan dan error dilempar. Pembatalan mengembalikan stok dan bersifat final.
+ * Jika gagal, status dikembalikan dan error dilempar. Pembatalan bersifat final (jumlah pesanan yang dibatalkan tidak lagi dihitung ke batas PO).
  */
 export async function updateOrderStatus(id: string, status: OrderStatus) {
   const previous = ordersStore.getSnapshot().find((order) => order.id === id)?.status;
@@ -97,8 +107,7 @@ export async function updateOrderStatus(id: string, status: OrderStatus) {
     void ordersStore.refresh();
     throw new Error(error.message);
   }
-  // pembatalan mengembalikan stok; kuota PO dan stok publik ikut berubah (di latar belakang)
-  if (status === "dibatalkan") void productsStore.refresh();
+  // kuota PO ikut berubah saat pesanan dibatalkan (di latar belakang)
   void refreshPublicData();
 }
 

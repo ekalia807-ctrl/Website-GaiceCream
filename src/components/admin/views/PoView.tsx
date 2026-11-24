@@ -106,7 +106,7 @@ export function PoView() {
               <p className="mt-[6px] text-[12px] text-muted">
                 {open.readyDate ? `Ready ${formatLongDateString(open.readyDate)}` : "Tanggal ready belum diisi"}
                 {" · "}
-                {open.quota !== null ? `Kuota ${open.quota} pcs` : "Tanpa batas kuota"}
+                {open.quota !== null ? `Batas ${open.quota} pcs (semua rasa)` : "Tanpa batas jumlah"}
               </p>
               <div className="my-[18px] grid grid-cols-3 gap-[10px] text-center">
                 <div className="rounded-[12px] bg-[#f7f5f2] p-[12px]">
@@ -153,7 +153,7 @@ export function PoView() {
                 <input {...register("readyDate")} type="date" className={adminInput} />
               </label>
               <label className={adminLabel}>
-                Kuota (pcs, opsional)
+                Batas jumlah gaicream di PO ini (pcs, opsional)
                 <input
                   {...register("quota", {
                     setValueAs: (value) => (value === "" || value == null ? null : Number(value)),

@@ -6,11 +6,12 @@ import {
   poStore,
   productsStore,
   settingsStore,
+  testimonialsStore,
   transactionsStore,
 } from "@/lib/admin/repository";
 import type { RemoteCollection } from "@/lib/supabase/collection";
 import type { CashTransaction, Order, PoPeriod, StoreSettings } from "@/types/admin";
-import type { Product } from "@/types/product";
+import type { Product, Testimonial } from "@/types/product";
 import { useHydrated } from "./useHydrated";
 
 function useStore<T extends { id: string }>(store: RemoteCollection<T>) {
@@ -29,6 +30,8 @@ export const useAdminProducts = (): Product[] => useStore(productsStore);
 export const useAdminOrders = (): Order[] => useStore(ordersStore);
 export const useAdminTransactions = (): CashTransaction[] => useStore(transactionsStore);
 export const useAdminSettings = (): StoreSettings | undefined => useStore(settingsStore)[0];
+export const useAdminTestimonials = (): Testimonial[] => useStore(testimonialsStore);
+export const useTestimonialsReady = (): boolean => useStoreReady(testimonialsStore);
 export const usePoPeriods = (): PoPeriod[] => useStore(poStore);
 
 /** true setelah semua data admin selesai dimuat dari Supabase. */

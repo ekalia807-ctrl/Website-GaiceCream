@@ -8,6 +8,27 @@ export const loginSchema = z.object({
 });
 export type LoginValues = z.infer<typeof loginSchema>;
 
+export const forgotSchema = z.object({
+  email: z.string().trim().email("Format email tidak valid"),
+});
+export type ForgotValues = z.infer<typeof forgotSchema>;
+
+export const resetSchema = z
+  .object({
+    password: z.string().min(8, "Password minimal 8 karakter"),
+    confirmPassword: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["confirmPassword"],
+        message: "Konfirmasi password tidak sama",
+      });
+    }
+  });
+export type ResetValues = z.infer<typeof resetSchema>;
+
 export const registerSchema = z
   .object({
     fullName: z.string().trim().min(2, "Nama minimal 2 huruf"),

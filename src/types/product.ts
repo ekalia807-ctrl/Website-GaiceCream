@@ -23,5 +23,10 @@ export type Testimonial = {
   id: string;
   quote: string;
   name: string;
+  /** keterangan singkat, mis. "Pelanggan setia" (opsional) */
   role: string;
+  /** false = disembunyikan dari website */
+  active: boolean;
+  /** urutan tampil (kecil = lebih dulu) */
+  sortOrder: number;
 };

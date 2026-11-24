@@ -148,3 +148,19 @@
 .gai-float-shadow {
   animation: gai-shadow var(--gai-dur, 6s) ease-in-out var(--gai-delay, 0s) infinite;
 }
+
+/* hormati pengaturan "kurangi gerakan" di iPhone/Android */
+@media (prefers-reduced-motion: reduce) {
+  .gai-float,
+  .gai-float-shadow {
+    animation: none;
+  }
+}
+
+/* iPhone/Safari lama belum mengenal overflow: clip, jadi halaman bisa bergeser ke samping; pakai hidden sebagai cadangan */
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}

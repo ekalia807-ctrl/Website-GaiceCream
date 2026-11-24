@@ -113,6 +113,13 @@ export function OrderFlow({
     });
   }
 
+  /** Batas jumlah satu rasa = sisa kuota PO dikurangi jumlah rasa lain yang sudah dipilih (tanpa batas per rasa). */
+  function maxFor(productId: string, current: number) {
+    if (po.remaining === null) return 999;
+    const others = orderTotals(lines).quantity - current;
+    return Math.max(po.remaining - others, current, 1);
+  }
+
   function setQuantity(productId: string, value: number) {
     setQuantities((previous) => ({ ...previous, [productId]: value }));
   }
@@ -191,16 +198,14 @@ export function OrderFlow({
           <div className="mt-[17px] grid grid-cols-2 gap-[10px] max-[520px]:grid-cols-1">
             {products.map((product) => {
               const selected = (quantities[product.id] ?? 0) > 0;
-              const soldOut = product.stock <= 0;
               return (
                 <button
                   key={product.id}
                   type="button"
-                  disabled={soldOut}
                   aria-pressed={selected}
                   onClick={() => toggleProduct(product)}
                   className={cn(
-                    "relative flex min-h-[64px] items-center gap-[10px] rounded-[2px] bg-white p-[9px] text-left disabled:opacity-50",
+                    "relative flex min-h-[64px] items-center gap-[10px] rounded-[2px] bg-white p-[9px] text-left",
                     selected
                       ? "border-2 border-chocolate bg-[#faf5f6]"
                       : "border border-[#e7e5e4]",
@@ -216,7 +221,7 @@ export function OrderFlow({
                   <span className="flex flex-col">
                     <b className="text-[12px]">{product.name}</b>
                     <small className="text-[10px] text-muted">
-                      {soldOut ? "Stok habis" : formatIDR(product.price)}
+                      {formatIDR(product.price)}
                     </small>
                   </span>
                   {selected && (
@@ -260,13 +265,13 @@ export function OrderFlow({
                     <span className="flex flex-col">
                       <b className="text-[12px]">{product.name}</b>
                       <small className="text-[10px] text-muted">
-                        {formatIDR(product.price)} · stok {product.stock}
+                        {formatIDR(product.price)}
                       </small>
                     </span>
                   </span>
                   <QuantityStepper
                     value={quantity}
-                    max={product.stock}
+                    max={maxFor(product.id, quantity)}
                     label={product.name}
                     onChange={(next) => setQuantity(product.id, next)}
                   />

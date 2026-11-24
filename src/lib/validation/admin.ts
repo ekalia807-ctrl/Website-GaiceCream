@@ -13,10 +13,6 @@ export const productFormSchema = z.object({
     .number({ invalid_type_error: "Modal harus berupa angka" })
     .int("Modal harus bilangan bulat")
     .min(0, "Modal tidak boleh negatif"),
-  stock: z
-    .number({ invalid_type_error: "Stok harus berupa angka" })
-    .int("Stok harus bilangan bulat")
-    .min(0, "Stok tidak boleh negatif"),
   tag: z.string().trim().max(20, "Label maksimal 20 karakter"),
   description: z.string().trim().max(200, "Deskripsi maksimal 200 karakter"),
   image: z
@@ -29,6 +25,18 @@ export const productFormSchema = z.object({
   active: z.boolean(),
 });
 export type ProductFormValues = z.infer<typeof productFormSchema>;
+
+export const testimonialFormSchema = z.object({
+  name: z.string().trim().min(2, "Nama minimal 2 huruf").max(40, "Nama maksimal 40 karakter"),
+  role: z.string().trim().max(40, "Maksimal 40 karakter"),
+  quote: z
+    .string()
+    .trim()
+    .min(10, "Isi testimoni minimal 10 huruf")
+    .max(280, "Isi testimoni maksimal 280 karakter"),
+  active: z.boolean(),
+});
+export type TestimonialFormValues = z.infer<typeof testimonialFormSchema>;
 
 export const transactionFormSchema = z.object({
   date: z.string().min(1, "Tanggal wajib diisi"),

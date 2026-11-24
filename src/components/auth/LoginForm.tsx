@@ -18,7 +18,15 @@ function translateError(message: string) {
   return "Belum bisa masuk. Coba lagi sebentar lagi.";
 }
 
-export function LoginForm({ next, initialError }: { next: string; initialError?: string }) {
+export function LoginForm({
+  next,
+  initialError,
+  initialInfo,
+}: {
+  next: string;
+  initialError?: string;
+  initialInfo?: string;
+}) {
   const router = useRouter();
   const [formError, setFormError] = useState(initialError ?? "");
   const {
@@ -79,6 +87,17 @@ export function LoginForm({ next, initialError }: { next: string; initialError?:
         />
         {errors.password && <span className={errorClass}>{errors.password.message}</span>}
       </label>
+      <div className="mt-[10px] text-right text-[12px]">
+        <Link href="/lupa-password" className="text-muted underline hover:text-chocolate">
+          Lupa password?
+        </Link>
+      </div>
+
+      {initialInfo && !formError && (
+        <p role="status" className="mt-[14px] text-[12px] font-medium text-[#557a4b]">
+          {initialInfo}
+        </p>
+      )}
 
       {formError && (
         <p role="alert" className={`${errorClass} mt-[14px]`}>

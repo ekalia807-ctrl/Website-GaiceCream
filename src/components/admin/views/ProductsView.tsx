@@ -5,36 +5,28 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useAdminProducts } from "@/hooks/useAdminData";
 import { useAdminReady } from "@/hooks/useAdminData";
-import { LOW_STOCK_THRESHOLD } from "@/lib/admin/status";
 import { cn, formatIDR } from "@/lib/utils";
 import type { Product } from "@/types/product";
 import { AdminTitle } from "../AdminTitle";
 import { AdminLoading, EmptyState } from "../EmptyState";
 import { ProductFormModal } from "../ProductFormModal";
-import { StockModal } from "../StockModal";
 import { pillControl } from "../styles";
 import { useToast } from "../ToastProvider";
 
-type ProductStatus = "tersedia" | "menipis" | "habis" | "nonaktif";
+type ProductStatus = "tersedia" | "nonaktif";
 
 function productStatus(product: Product): ProductStatus {
   if (!product.active) return "nonaktif";
-  if (product.stock <= 0) return "habis";
-  if (product.stock <= LOW_STOCK_THRESHOLD) return "menipis";
   return "tersedia";
 }
 
 const statusLabel: Record<ProductStatus, string> = {
   tersedia: "Tersedia",
-  menipis: "Stok menipis",
-  habis: "Habis",
   nonaktif: "Nonaktif",
 };
 
 const statusStyle: Record<ProductStatus, string> = {
   tersedia: "bg-[#e3efdf] text-[#557a4b]",
-  menipis: "bg-[#fff1ce] text-[#916c19]",
-  habis: "bg-[#f9e3df] text-[#a8493a]",
   nonaktif: "bg-[#eeeae6] text-[#6e625e]",
 };
 
@@ -45,7 +37,6 @@ export function ProductsView() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"semua" | ProductStatus>("semua");
   const [formTarget, setFormTarget] = useState<{ product?: Product } | null>(null);
-  const [stockTarget, setStockTarget] = useState<Product | null>(null);
 
   const categories = useMemo(
     () => Array.from(new Set(products.map((product) => product.category))),
@@ -66,9 +57,6 @@ export function ProductsView() {
   // simpan hanya id agar modal selalu menampilkan data terbaru
   const editing = formTarget?.product
     ? products.find((product) => product.id === formTarget.product?.id)
-    : undefined;
-  const stockProduct = stockTarget
-    ? products.find((product) => product.id === stockTarget.id)
     : undefined;
 
   return (
@@ -140,17 +128,8 @@ export function ProductsView() {
                     Modal {product.cost > 0 ? formatIDR(product.cost) : "belum diisi"}
                   </p>
                   <div className="mt-[14px] flex items-center justify-between gap-[6px] text-[10px]">
-                    <span>
-                      Stok <b>{product.stock} pcs</b>
-                    </span>
+                    <span className="text-muted">{product.active ? "Tampil di website" : "Disembunyikan"}</span>
                     <span className="flex gap-[5px]">
-                      <button
-                        type="button"
-                        onClick={() => setStockTarget(product)}
-                        className="rounded-[8px] bg-[#f0f4e8] px-[9px] py-[6px] text-[10px] text-[#557a4b]"
-                      >
-                        Stok
-                      </button>
                       <button
                         type="button"
                         onClick={() => setFormTarget({ product })}
@@ -173,14 +152,6 @@ export function ProductsView() {
           product={editing}
           categories={categories}
           onClose={() => setFormTarget(null)}
-          onSaved={notify}
-        />
-      )}
-      {stockProduct && (
-        <StockModal
-          key={stockProduct.id}
-          product={stockProduct}
-          onClose={() => setStockTarget(null)}
           onSaved={notify}
         />
       )}
