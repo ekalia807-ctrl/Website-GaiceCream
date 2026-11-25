@@ -9,11 +9,11 @@ import { formatIDR } from "@/lib/utils";
  * jadi otomatis menyesuaikan di HP maupun desktop.
  */
 const cluster = [
-  { slug: "chocolate-milo", name: "Chocolate Milo", pos: "left-[50%] top-[6%] w-[42%] z-10", rotate: -7, lift: 8, duration: 6.4, delay: 0.4 },
-  { slug: "cookies-cream", name: "Cookies & Cream", pos: "right-[0%] top-[2%] w-[45%] z-10", rotate: 6, lift: 10, duration: 5.6, delay: 1.1 },
-  { slug: "matcha", name: "Matcha", pos: "left-[54%] top-[1%] w-[52%] z-20", rotate: -2, lift: 11, duration: 6.8, delay: 0 },
-  { slug: "blueberry", name: "Blueberry", pos: "left-[1%] bottom-[4%] w-[38%] z-10", rotate: -6, lift: 7, duration: 5.9, delay: 1.7 },
-  { slug: "strawberry", name: "Strawberry", pos: "right-[50%] bottom-[80%] w-[42%] z-30", rotate: 7, lift: 9, duration: 6.1, delay: 0.8 },
+  { slug: "strawberry",     name: "Strawberry",      pos: "left-[0%] top-[14%] w-[30%] z-20",   rotate: -11, lift: 9,  duration: 6.1, delay: 0.8 },
+  { slug: "cookies-cream",  name: "Cookies & Cream", pos: "left-[44%] top-[1%] w-[24%] z-10",   rotate: 13,  lift: 12, duration: 7.9, delay: 1.1 },
+  { slug: "matcha",         name: "Matcha",          pos: "right-[0%] top-[27%] w-[42%] z-30",  rotate: 4,   lift: 11, duration: 7.2, delay: 0 },
+  { slug: "blueberry",      name: "Blueberry",       pos: "left-[9%] top-[57%] w-[30%] z-20",   rotate: 7,   lift: 8,  duration: 5.7, delay: 1.7 },
+  { slug: "chocolate-milo", name: "Chocolate Milo",  pos: "left-[52%] top-[79%] w-[26%] z-20",  rotate: -9,  lift: 10, duration: 6.6, delay: 0.4 },
 ] as const;
 
 export function Hero({ minPrice }: { minPrice: number }) {
@@ -43,7 +43,7 @@ export function Hero({ minPrice }: { minPrice: number }) {
       </div>
 
       {/* foto produk tanpa latar, melayang */}
-      <div className="relative mx-auto aspect-[1/1.02] w-full max-w-[400px] max-[800px]:order-2 max-[800px]:max-w-[270px]">
+      <div className="relative mx-auto aspect-[1/1.1] w-full max-w-[400px] min-[801px]:max-w-[640px] max-[800px]:order-2 max-[800px]:max-w-[270px]">
         {cluster.map((item, index) => (
           <FloatingProduct
             key={item.slug}
